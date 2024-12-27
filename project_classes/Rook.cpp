@@ -1,15 +1,4 @@
 #include "Rook.h"
-//(y,x)
-//char board[BOARD_SIZE][BOARD_SIZE] = {
-//    {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}, //0 
-//    {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'}, //1		black
-//    {'#', '#', '#', '#', '#', '#', '#', '#'}, //2
-//    {'#', '#', '#', '#', '#', '#', '#', '#'}, //3
-//    {'#', '#', '#', '#', '#', '#', '#', '#'}, //4
-//    {'#', '#', '#', '#', '#', '#', '#', '#'}, //5
-//    {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'}, //6     white
-//    {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}  //7
-//};  //A    B    C    D    E    F    G    H
 
 int Rook::Invalid_move(int x_current, int y_current, int x_next, int y_next, char board[8][8]) {
 	int i = 0;
