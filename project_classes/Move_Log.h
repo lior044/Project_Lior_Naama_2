@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 #define WHITE 0
 #define BLACK 1

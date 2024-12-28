@@ -10,26 +10,32 @@ class Board {
 public:
     Board();
     ~Board();
-    void check_Check(int x_current, int y_current, int x_next, int y_next);
-    void check_self_check(int x_current, int y_current, int x_next, int y_next);
+    int check_Check(int x_current, int y_current, int x_next, int y_next);
+    int check_self_check(int x_current, int y_current, int x_next, int y_next);
     void check_Move_Invalid_Piece(int x_current, int y_current);
     void check_Move_to_self_piece(int x_next, int y_next);
     void check_Invalid_Index(int x_current, int y_current, int x_next, int y_next);
     void check_Move_To_Same_Index(int x_current, int y_current, int x_next, int y_next);
     void check_Invalid_move(int x_current, int y_current, int x_next, int y_next);
+    int get_turn() const;
+    void set_turn(int set);
+
+    int check_for_positive_checks_in_move_log() const;
 
     void print_Move_Log();
+    void print_board();
+    void update_board(int x_current, int y_current, int x_next, int y_next);
 
 private:
     char board[BOARD_SIZE][BOARD_SIZE] = {
-        {'#', '#', '#', '#', '#', '#', 'b', '#'}, //0 
-        {'#', '#', '#', '#', '#', 'B', '#', '#'}, //1
+        {'#', '#', '#', 'k', 'r', '#', '#', '#'}, //0 
+        {'#', '#', '#', 'r', '#', '#', '#', '#'}, //1
         {'#', '#', '#', '#', '#', '#', '#', '#'}, //2
-        {'#', '#', '#', 'K', '#', '#', '#', '#'}, //3
-        {'#', '#', '#', '#', 'p', '#', '#', '#'}, //4
+        {'#', '#', '#', '#', '#', '#', '#', '#'}, //3
+        {'#', '#', '#', '#', '#', '#', '#', '#'}, //4
         {'#', '#', '#', '#', '#', '#', '#', '#'}, //5
-        {'#', '#', '#', 'Q', '#', '#', '#', '#'}, //6
-        {'#', '#', '#', 'q', '#', '#', '#', '#'}  //7
+        {'#', '#', 'R', '#', '#', '#', '#', '#'}, //6
+        {'#', '#', '#', 'K', 'R', '#', '#', '#'}  //7
     };  //A    B    C    D    E    F    G    H
 
     int game_code;
