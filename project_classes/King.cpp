@@ -1,363 +1,192 @@
+#include <iostream>
 #include "King.h"
 
-int King::check_if_in_mate(char Board[8][8], int turn) {
-    int will_be_in_check = 0;
-    char king;
-    int king_x = NULL;
-    int king_y = NULL;
+#define WHITE 0
+#define BLACK 1
+#define BOARD_SIZE 8
 
-    //init king char with correct color
+bool check_straight_line_threats(char Board[8][8], int king_x, int king_y, int turn);
+bool check_diagonal_threats(char Board[8][8], int king_x, int king_y, int turn);
+bool check_knight_threats(char Board[8][8], int king_x, int king_y, int turn);
+bool check_pawn_threats(char Board[8][8], int king_x, int king_y, int turn);
+
+int King::check_if_in_check(char Board[8][8], int turn) {
+    int king_x = -1, king_y = -1;
+    char king;
     if (turn == WHITE) {
-        king = 'K'; //white
+        king = 'K';
     }
     else {
-        king = 'k'; //black
+        king = 'k';
     }
 
-    //find king on Board
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        for (int j = 0; j < BOARD_SIZE; j++) {
+    // Find the king's position
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        for (int j = 0; j < BOARD_SIZE; ++j) {
             if (Board[i][j] == king) {
-                king_x = i;
-                king_y = j;
+                king_x = j;
+                king_y = i;
                 break;
             }
         }
-        if (king_x != NULL) {
+        if (king_x != -1) break; // Exit once the king is found
+    }
+
+    // Check all potential threats
+    if (check_straight_line_threats(Board, king_x, king_y, turn) ||
+        check_diagonal_threats(Board, king_x, king_y, turn) ||
+        check_knight_threats(Board, king_x, king_y, turn) ||
+        check_pawn_threats(Board, king_x, king_y, turn)) {
+        return 1; // King is in check
+    }
+
+    return 0; // King is not in check
+}
+
+// Helper Functions
+
+bool check_straight_line_threats(char Board[8][8], int king_x, int king_y, int turn) {
+    char rook;
+    if (turn == WHITE) {
+        rook = 'r';
+    }
+    else {
+        rook = 'R';
+    }
+    char queen;
+    if (turn == WHITE) {
+        queen = 'q';
+    }
+    else {
+        queen = 'Q';
+    }
+
+    // Check right
+    for (int x = king_x + 1; x < BOARD_SIZE; ++x) {
+        if (Board[king_y][x] != '#') {
+            if (Board[king_y][x] == rook || Board[king_y][x] == queen) return true;
+            break;
+        }
+    }
+    // Check left
+    for (int x = king_x - 1; x >= 0; --x) {
+        if (Board[king_y][x] != '#') {
+            if (Board[king_y][x] == rook || Board[king_y][x] == queen) return true;
+            break;
+        }
+    }
+    // Check down
+    for (int y = king_y + 1; y < BOARD_SIZE; ++y) {
+        if (Board[y][king_x] != '#') {
+            if (Board[y][king_x] == rook || Board[y][king_x] == queen) return true;
+            break;
+        }
+    }
+    // Check up
+    for (int y = king_y - 1; y >= 0; --y) {
+        if (Board[y][king_x] != '#') {
+            if (Board[y][king_x] == rook || Board[y][king_x] == queen) return true;
             break;
         }
     }
 
-    // check all directions
-    for (int i = king_x; i < 8; i++) { //check right _-  for queen or rook
-        if (i != king_x) { //make sure it skips king`s index
-            if (Board[king_y][i] != '#') {
-                if (turn == WHITE) {
-                    if (Board[king_y][i] == 'q' || Board[king_y][i] == 'r') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if (Board[king_y][i] == 'Q' || Board[king_y][i] == 'R') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-
-    for (int i = king_x; i >= 0; i--) { //check left -_ for queen or rook
-        if (i != king_x) { //make sure it skips king`s index
-            if (Board[king_y][i] != '#') {
-                if (turn == WHITE) {
-                    if (Board[king_y][i] == 'q' || Board[king_y][i] == 'r') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if (Board[king_y][i] == 'Q' || Board[king_y][i] == 'R') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-    for (int i = king_y; i < 8; i++) { //check down -| for queen or rook
-        if (i != king_y) {  //make sure it skips king`s index
-            if (Board[i][king_x] != '#') {
-                if (turn == WHITE) {
-                    if (Board[i][king_x] == 'q' || Board[i][king_x] == 'r') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if (Board[i][king_x] == 'Q' || Board[i][king_x] == 'R') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-    for (int i = king_y; i >= 0; i--) { //check up _| for queen or rook
-        if (i != king_y) { //make sure it skips king`s index
-            if (Board[i][king_x] != '#') {
-                if (turn == WHITE) {
-                    if (Board[i][king_x] == 'q' || Board[i][king_x] == 'r') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if (Board[i][king_x] == 'Q' || Board[i][king_x] == 'R') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-    for (int x = king_x, y = king_y; x < 8 && y >= 0; x++, y--) {  //check diagonal top right _/ for queen or bishop, or pawn if king white
-        if (x != king_x && y != king_y) { //make sure it skips king`s index
-            if (Board[y][x] != '#') {
-                if (turn == WHITE) {
-                    if (Board[king_y - 1][king_x + 1] == 'p') { //check pawn only if it is one step away
-                        will_be_in_check = 1;
-                    }
-                    if (Board[y][x] == 'q' || Board[y][x] == 'b') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-
-                    if (Board[y][x] == 'Q' || Board[y][x] == 'B') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-    for (int x = king_x, y = king_y; x >= 0 && y >= 0; x--, y--) {  //check diagonal top left \_ for queen or bishop, or pawn if king white
-        if (x != king_x && y != king_y) { //make sure it skips king`s index
-            if (Board[y][x] != '#') {
-                if (turn == WHITE) {
-                    if (Board[king_y - 1][king_x - 1] == 'p') { //check pawn only if it is one step away
-                        will_be_in_check = 1;
-                    }
-                    if (Board[y][x] == 'q' || Board[y][x] == 'b') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-
-                    if (Board[y][x] == 'Q' || Board[y][x] == 'B') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-    for (int x = king_x, y = king_y; x >= 0 && y < 8; x--, y++) {  //check diagonal bottom left /- for queen or bishop, or pawn if king is black
-        if (x != king_x && y != king_y) { //make sure it skips king`s index
-            if (Board[y][x] != '#') {
-                if (turn == WHITE) {
-                    if (Board[y][x] == 'q' || Board[y][x] == 'b') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if (Board[king_y + 1][king_x - 1] == 'P') { //check pawn only if it is one step away
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    if (Board[y][x] == 'Q' || Board[y][x] == 'B') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-    for (int x = king_x, y = king_y; x < 8 && y < 8; x++, y++) {  //check diagonal bottom right -\ for queen or bishop or pawn if king is black
-        if (x != king_x && y != king_y) { //make sure it skips king`s index
-            if (Board[y][x] != '#') {
-                if (turn == WHITE) {
-                    if (Board[y][x] == 'q' || Board[y][x] == 'b') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if (Board[king_y++][king_x++] == 'P') { //check pawn only if it is one step away
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    if (Board[y][x] == 'Q' || Board[y][x] == 'B') {
-                        will_be_in_check = 1;
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-
-    //check all knight threats
-    if (king_x + 2 < 8 && king_y + 1 < 8) {
-        if (turn == WHITE) {
-            if (Board[king_y + 1][king_x + 2] == 'n') {
-                will_be_in_check = 1;
-            }
-
-        }
-        else {
-            if (Board[king_y + 1][king_x + 2] == 'N') {
-                will_be_in_check = 1;
-            }
-        }
-    }
-    if (king_x + 1 < 8 && king_y + 2 < 8) {
-        if (turn == WHITE) {
-            if (Board[king_y + 2][king_x + 1] == 'n') {
-                will_be_in_check = 1;
-            }
-        }
-        else {
-            if (Board[king_y + 2][king_x + 1] == 'N') {
-                will_be_in_check = 1;
-            }
-        }
-    }
-    if (king_x - 2 >= 0 && king_y + 1 < 8) {
-        if (turn == WHITE) {
-            if (Board[king_y + 1][king_x - 2] == 'n') {
-                will_be_in_check = 1;
-            }
-        }
-        else {
-            if (Board[king_y + 1][king_x - 2] == 'N') {
-                will_be_in_check = 1;
-            }
-        }
-    }
-    if (king_x - 1 >= 0 && king_y + 2 < 8) {
-        if (turn == WHITE) {
-            if (Board[king_y + 2][king_x - 1] == 'n') {
-                will_be_in_check = 1;
-            }
-        }
-        else {
-            if (Board[king_y + 2][king_x - 1] == 'N') {
-                will_be_in_check = 1;
-            }
-        }
-    }
-    if (king_x + 2 < 8 && king_y - 1 >= 0) {
-        if (turn == WHITE) {
-            if (Board[king_y - 1][king_x + 2] == 'n') {
-                will_be_in_check = 1;
-            }
-        }
-        else {
-            if (Board[king_y - 1][king_x + 2] == 'N') {
-                will_be_in_check = 1;
-            }
-        }
-    }
-    if (king_x + 1 < 8 && king_y - 2 >= 0) {
-        if (turn == WHITE) {
-            if (Board[king_y - 2][king_x + 1] == 'n') {
-                will_be_in_check = 1;
-            }
-        }
-        else {
-            if (Board[king_y - 2][king_x + 1] == 'N') {
-                will_be_in_check = 1;
-            }
-        }
-    }
-    if (king_x - 2 >= 0 && king_y - 1 >= 0) {
-        if (turn == WHITE) {
-            if (Board[king_y - 1][king_x - 2] == 'n') {
-                will_be_in_check = 1;
-            }
-        }
-        else {
-            if (Board[king_y - 1][king_x - 2] == 'N') {
-                will_be_in_check = 1;
-            }
-        }
-    }
-    if (king_x - 1 >= 0 && king_y - 2 >= 0) {
-        if (turn == WHITE) {
-            if (Board[king_y - 2][king_x - 1] == 'n') {
-                will_be_in_check = 1;
-            }
-        }
-        else {
-            if (Board[king_y - 2][king_x - 1] == 'N') {
-                will_be_in_check = 1;
-
-            }
-        }
-    }
-
-    return will_be_in_check;
+    return false;
 }
 
+bool check_diagonal_threats(char Board[8][8], int king_x, int king_y, int turn) {
+    char bishop;
+    if (turn == WHITE) {
+        bishop = 'b';
+    }
+    else {
+        bishop = 'B';
+    }
+    char queen;
+    if (turn == WHITE) {
+        queen = 'q';
+    }
+    else {
+        queen = 'Q';
+    }
 
+    // Check top-right
+    for (int x = king_x + 1, y = king_y - 1; x < BOARD_SIZE && y >= 0; ++x, --y) {
+        if (Board[y][x] != '#') {
+            if (Board[y][x] == bishop || Board[y][x] == queen) return true;
+            break;
+        }
+    }
+    // Check top-left
+    for (int x = king_x - 1, y = king_y - 1; x >= 0 && y >= 0; --x, --y) {
+        if (Board[y][x] != '#') {
+            if (Board[y][x] == bishop || Board[y][x] == queen) return true;
+            break;
+        }
+    }
+    // Check bottom-right
+    for (int x = king_x + 1, y = king_y + 1; x < BOARD_SIZE && y < BOARD_SIZE; ++x, ++y) {
+        if (Board[y][x] != '#') {
+            if (Board[y][x] == bishop || Board[y][x] == queen) return true;
+            break;
+        }
+    }
+    // Check bottom-left
+    for (int x = king_x - 1, y = king_y + 1; x >= 0 && y < BOARD_SIZE; --x, ++y) {
+        if (Board[y][x] != '#') {
+            if (Board[y][x] == bishop || Board[y][x] == queen) return true;
+            break;
+        }
+    }
 
+    return false;
+}
 
+bool check_knight_threats(char Board[8][8], int king_x, int king_y, int turn) {
+    char knight;
+    if (turn == WHITE) {
+        knight = 'n';
+    }
+    else {
+        knight = 'N';
+    }
 
+    int knight_moves[8][2] = {
+        {2, 1}, {1, 2}, {-1, 2}, {-2, 1},
+        {-2, -1}, {-1, -2}, {1, -2}, {2, -1}
+    };
+
+    for (int i = 0; i < 8; ++i) {
+        int x = king_x + knight_moves[i][0];
+        int y = king_y + knight_moves[i][1];
+        if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+            if (Board[y][x] == knight) return true;
+        }
+    }
+
+    return false;
+}
+
+bool check_pawn_threats(char Board[8][8], int king_x, int king_y, int turn) {
+    char pawn;
+    if (turn == WHITE) {
+        pawn = 'p';
+    }
+    else {
+        pawn = 'P';
+    }
+
+    if (turn == WHITE) {
+        if ((king_y > 0 && king_x > 0 && Board[king_y - 1][king_x - 1] == pawn) ||
+            (king_y > 0 && king_x < 7 && Board[king_y - 1][king_x + 1] == pawn)) {
+            return true;
+        }
+    }
+    else {
+        if ((king_y < 7 && king_x > 0 && Board[king_y + 1][king_x - 1] == pawn) ||
+            (king_y < 7 && king_x < 7 && Board[king_y + 1][king_x + 1] == pawn)) {
+            return true;
+        }
+    }
+
+    return false;
+}
