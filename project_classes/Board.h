@@ -5,6 +5,8 @@
 //al the pieces
 #include "Rook.h"
 #include "King.h"
+#include "Pawn.h"
+#include "Bishop.h"
 
 class Board {
 public:
