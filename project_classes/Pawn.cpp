@@ -28,4 +28,6 @@ int Pawn::Invalid_move(int x_current, int y_current, int x_next, int y_next, cha
 			Invalid = 0;
 		}
 	}
+
+	return Invalid;
 }

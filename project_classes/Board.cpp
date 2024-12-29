@@ -127,10 +127,10 @@ void Board::check_Invalid_move(int x_current, int y_current, int x_next, int y_n
 
     case 'b':
     case 'B':
-        
+        _Move_log.set_Invalid_move(Bishop::Invalid_move(x_current, y_current, x_next, y_next, board));
         break;
 
-    case 'n':
+/*    case 'n':
     case 'N':
         
         break;
@@ -138,7 +138,7 @@ void Board::check_Invalid_move(int x_current, int y_current, int x_next, int y_n
     case 'q':
     case 'Q':
         
-        break;
+        break*/;
 
     case 'p':
     case 'P':
