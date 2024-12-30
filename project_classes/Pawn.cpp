@@ -17,14 +17,14 @@ int Pawn::Invalid_move(int x_current, int y_current, int x_next, int y_next, cha
 		}
 	}
 	else { //pawn is white and can only move up
-		if (y_current == 7 && y_next == y_current - 2 && x_current == x_next && board[y_current - 1][x_current] == '#') { //checking if it is first pawn`s move and only watns to move two block down and not jumping over any one
+		if (y_current == 6 && y_next == y_current - 2 && x_current == x_next && board[y_current - 1][x_current] == '#') { //checking if it is first pawn`s move and only watns to move two block down and not jumping over any one
 			Invalid = 0;
 		}
 
 		if (y_next == y_current - 1 && x_current == x_next) { //checking if only wants to move one space
 			Invalid = 0;
 		}
-		if ((y_next == y_current - 1) && (x_next == x_current + 1 || x_next == x_current - 1) && ((board[y_current - 1][x_current + 1] >= 65 && board[y_current - 1][x_current + 1] <= 90) || (board[y_current - 1][x_current - 1] >= 65 && board[y_current - 1][x_current - 1] <= 90))) { //checks that it eats other piece correctly
+		if ((y_next == y_current - 1) && (x_next == x_current + 1 || x_next == x_current - 1) && ((board[y_current - 1][x_current + 1] >= 97 && board[y_current - 1][x_current + 1] <= 122) || (board[y_current - 1][x_current - 1] >= 97 && board[y_current - 1][x_current - 1] <= 122))) { //checks that it eats other piece correctly
 			Invalid = 0;
 		}
 	}

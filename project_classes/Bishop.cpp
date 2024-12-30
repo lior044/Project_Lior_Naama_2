@@ -9,6 +9,9 @@ int Bishop::Invalid_move(int x_current, int y_current, int x_next, int y_next, c
 
 
 	if (x_current < x_next && y_current < y_next) { // Bottom-right 
+		if (x_next - x_current != y_next - y_current) { // make sure going in a straight diagonal
+			Invalid = 1;
+		}
 		for (x = x_current, y = y_current; x < x_next && y < y_next; x++, y++)
 		{
 			if (x != x_current && y != y_current) {//skip same space
@@ -20,8 +23,12 @@ int Bishop::Invalid_move(int x_current, int y_current, int x_next, int y_next, c
 
 		}
 	}
+
 	if (x_current > x_next && y_current < y_next) { // Bottom-left 
-		for (x = x_current, y = y_current; x < x_next && y < y_next; x--, y++)
+		if (x_current - x_next != y_next - y_current) { // make sure going in a straight diagonal
+			Invalid = 1;
+		}
+		for (x = x_current, y = y_current; x > x_next && y < y_next; x--, y++)
 		{
 			if (x != x_current && y != y_current) { //skip same space
 				if ((board[y][x] >= 65 && board[y][x] <= 90) || (board[y][x] >= 97 && board[y][x] <= 122)) {
@@ -32,8 +39,12 @@ int Bishop::Invalid_move(int x_current, int y_current, int x_next, int y_next, c
 
 		}
 	}
+
 	if (x_current < x_next && y_current > y_next) { // top-right 
-		for (x = x_current, y = y_current; x < x_next && y < y_next; x++, y--)
+		if (x_next - x_current != y_current - y_next) { // make sure going in a straight diagonal
+			Invalid = 1;
+		}
+		for (x = x_current, y = y_current; x < x_next && y > y_next; x++, y--)
 		{
 			if (x != x_current && y != y_current) {
 				if ((board[y][x] >= 65 && board[y][x] <= 90) || (board[y][x] >= 97 && board[y][x] <= 122)) {
@@ -44,8 +55,12 @@ int Bishop::Invalid_move(int x_current, int y_current, int x_next, int y_next, c
 
 		}
 	}
+
 	if (x_current > x_next && y_current > y_next) { // top-left 
-		for (x = x_current, y = y_current; x < x_next && y < y_next; x--, y--)
+		if (x_current - x_next != y_current - y_next) { // make sure going in a straight diagonal
+			Invalid = 1;
+		}
+		for (x = x_current, y = y_current; x > x_next && y > y_next; x--, y--)
 		{
 			if (x != x_current && y != y_current) {
 				if ((board[y][x] >= 65 && board[y][x] <= 90) || (board[y][x] >= 97 && board[y][x] <= 122)) {
@@ -55,11 +70,6 @@ int Bishop::Invalid_move(int x_current, int y_current, int x_next, int y_next, c
 			}
 
 		}
-	}
-
- else 
-	{
-	 Invalid = 1; // Not a valid diagonal move
 	}
 
 	return Invalid; // 0 if valid, 1 if invalid
