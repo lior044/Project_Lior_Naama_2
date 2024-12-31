@@ -9,7 +9,7 @@ int Pawn::Invalid_move(int x_current, int y_current, int x_next, int y_next, cha
 			Invalid = 0;
 		}
 
-		if (y_next == y_current + 1 && x_current == x_next) { //checking if only wants to move one space
+		if (y_next == y_current + 1 && x_current == x_next && board[y_next][x_next] == '#') { //checking if only wants to move one space
 			Invalid = 0;
 		}
 		if ((y_next == y_current + 1) && (x_next == x_current + 1 || x_next == x_current - 1) && ((board[y_current + 1][x_current + 1] >= 65 && board[y_current + 1][x_current + 1] <= 90) || (board[y_current + 1][x_current - 1] >= 65 && board[y_current + 1][x_current - 1] <= 90))) { //checks that it eats other piece correctly
@@ -21,7 +21,7 @@ int Pawn::Invalid_move(int x_current, int y_current, int x_next, int y_next, cha
 			Invalid = 0;
 		}
 
-		if (y_next == y_current - 1 && x_current == x_next) { //checking if only wants to move one space
+		if (y_next == y_current - 1 && x_current == x_next && board[y_next][x_next] == '#') { //checking if only wants to move one space
 			Invalid = 0;
 		}
 		if ((y_next == y_current - 1) && (x_next == x_current + 1 || x_next == x_current - 1) && ((board[y_current - 1][x_current + 1] >= 97 && board[y_current - 1][x_current + 1] <= 122) || (board[y_current - 1][x_current - 1] >= 97 && board[y_current - 1][x_current - 1] <= 122))) { //checks that it eats other piece correctly
