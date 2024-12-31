@@ -132,7 +132,7 @@ void Board::check_Invalid_move(int x_current, int y_current, int x_next, int y_n
 
     case 'n':
     case 'N':
-        
+        _Move_log.set_Invalid_move(Knight::Invalid_move(x_current, y_current, x_next, y_next, board));
         break;
 
     case 'q':
@@ -197,9 +197,11 @@ int Board::check_for_positive_checks_in_move_log() const {
 void Board::print_board() {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-            std::cout << board[i][j] << " ";
+            cout << board[i][j] << "   ";
         }
-        std::cout << std::endl; // Move to the next row
+        cout << endl; // Move to the next row
+        cout << endl;
+        
     }
 }
 
