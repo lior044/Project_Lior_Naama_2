@@ -29,6 +29,9 @@ public:
     void print_Move_Log();
     void print_board();
     void update_board(int x_current, int y_current, int x_next, int y_next);
+    string stringborad(const Board& board);
+    void getmove(const string& move, int& x_current, int& y_current, int& x_next, int& y_next);
+    bool processMove(Board& board, int x_current, int y_current, int x_next, int y_next);
 
 private:
     char board[BOARD_SIZE][BOARD_SIZE] = {

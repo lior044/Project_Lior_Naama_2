@@ -209,3 +209,45 @@ void Board::update_board(int x_current, int y_current, int x_next, int y_next) {
     board[y_next][x_next] = board[y_current][x_current];
     board[y_current][x_current] = '#';
 }
+string Board:: stringborad(const Board& board)
+{
+    string boardString;
+    for (int row = 0; row < BOARD_SIZE; ++row) 
+    {
+        for (int col = 0; col < BOARD_SIZE; ++col)
+        {
+            boardString += board.board[row][col];
+        }
+    }
+    return boardString;
+}
+void Board::getmove(const string& move, int& x_current, int& y_current, int& x_next, int& y_next) {
+    x_current = move[0] - 'a';            // Convert column letter to index
+    y_current = 8 - (move[1] - '0');      // Convert row number to index
+    x_next = move[2] - 'a';
+    y_next = 8 - (move[3] - '0');
+}
+bool Board::processMove(Board& board, int x_current, int y_current, int x_next, int y_next) {
+    try {
+        board.check_Invalid_Index(x_current, y_current, x_next, y_next);
+        board.check_Move_To_Same_Index(x_current, y_current, x_next, y_next);
+        board.check_Move_Invalid_Piece(x_current, y_current);
+        board.check_Move_to_self_piece(x_next, y_next);
+        board.check_Invalid_move(x_current, y_current, x_next, y_next);
+
+        if (board.check_for_positive_checks_in_move_log() != 0) {
+            throw std::runtime_error("Invalid move: causes check");
+        }
+
+        if (board.check_self_check(x_current, y_current, x_next, y_next)) {
+            throw std::runtime_error("Invalid move: self-check");
+        }
+
+        board.update_board(x_current, y_current, x_next, y_next);
+        return true; // Move is valid
+    }
+    catch (const std::exception& e) {
+        cout << "Error: " << e.what() << endl;
+        return false; // Move is invalid
+    }
+}
