@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\project_classes\Pipe.h" />
+    <ClInclude Include="..\..\..\..\project_classes\stdafx.h" />
+    <ClInclude Include="..\..\..\..\project_classes\targetver.h" />
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="King.h" />
@@ -29,6 +32,8 @@
     <ClInclude Include="Rook.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\project_classes\Source.cpp" />
+    <ClCompile Include="..\..\..\..\project_classes\stdafx.cpp" />
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="King.cpp" />
@@ -38,6 +43,9 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\project_classes\chessGraphics.exe" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
