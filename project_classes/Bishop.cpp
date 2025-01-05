@@ -71,6 +71,9 @@ int Bishop::Invalid_move(int x_current, int y_current, int x_next, int y_next, c
 
 		}
 	}
+	if(x_current == x_next || y_current == y_next) {
+		Invalid = 1;
+	}
 
 	return Invalid; // 0 if valid, 1 if invalid
 }

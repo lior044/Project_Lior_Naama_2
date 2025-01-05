@@ -23,26 +23,28 @@ public:
     void check_Invalid_move(int x_current, int y_current, int x_next, int y_next);
     int get_turn() const;
     void set_turn(int set);
-
+    int get_code();
+    void set_code(int code);
+    void set_all_Move_log_to_0();
     int check_for_positive_checks_in_move_log() const;
 
     void print_Move_Log();
     void print_board();
     void update_board(int x_current, int y_current, int x_next, int y_next);
-    string stringborad(const Board& board);
-    void getmove(const string& move, int& x_current, int& y_current, int& x_next, int& y_next);
+    static string stringborad(char board[8][8]);
+    static void getmove(const string& move, int& x_current, int& y_current, int& x_next, int& y_next);
     bool processMove(Board& board, int x_current, int y_current, int x_next, int y_next);
 
 private:
     char board[BOARD_SIZE][BOARD_SIZE] = {
-        {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'}, //0 
+        {'r', 'n', 'b', 'k', 'q', 'b', 'n', 'r'}, //0 
         {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'}, //1
         {'#', '#', '#', '#', '#', '#', '#', '#'}, //2
         {'#', '#', '#', '#', '#', '#', '#', '#'}, //3
         {'#', '#', '#', '#', '#', '#', '#', '#'}, //4
         {'#', '#', '#', '#', '#', '#', '#', '#'}, //5
         {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'}, //6
-        {'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}  //7
+        {'R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R'}  //7
     };  //A    B    C    D    E    F    G    H
 
     int game_code;
