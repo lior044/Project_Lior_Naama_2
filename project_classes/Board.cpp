@@ -209,14 +209,14 @@ void Board::update_board(int x_current, int y_current, int x_next, int y_next) {
     board[y_next][x_next] = board[y_current][x_current];
     board[y_current][x_current] = '#';
 }
-string Board:: stringborad(const Board& board)
+string Board::stringborad(char board[8][8])
 {
     string boardString;
     for (int row = 0; row < BOARD_SIZE; ++row) 
     {
         for (int col = 0; col < BOARD_SIZE; ++col)
         {
-            boardString += board.board[row][col];
+            boardString += board[row][col];
         }
     }
     return boardString;
@@ -250,4 +250,24 @@ bool Board::processMove(Board& board, int x_current, int y_current, int x_next, 
         cout << "Error: " << e.what() << endl;
         return false; // Move is invalid
     }
+}
+
+int Board::get_code() {
+    return game_code;
+}
+
+void Board::set_code(int code) {
+    game_code = code;
+}
+void Board::set_all_Move_log_to_0() {
+    _Move_log.set_Check(0);
+
+
+    //if one of these are on then not a valid play
+    _Move_log.set_Invalid_Index(0);
+    _Move_log.set_Invalid_move(0);
+    _Move_log.set_Move_Invalid_Piece(0);
+    _Move_log.set_Move_To_Same_Index(0);
+    _Move_log.set_Move_to_self_piece(0);
+    _Move_log.set_self_check(0);
 }

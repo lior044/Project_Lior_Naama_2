@@ -7,7 +7,7 @@ in order to read and write information from and to the Backend
 #include "Pipe.h"
 #include <iostream>
 #include <thread>
-
+#include "secnderyMain.h"
 using std::cout;
 using std::endl;
 using std::string;
@@ -15,12 +15,16 @@ using std::string;
 
 void main()
 {
+
 	srand(time_t(NULL));
 
-
+	string message;
+	char message_in_char[1024];
+	Board my_board;
+	SecondaryMain my_main(my_board);
 	Pipe p;
 	bool isConnect = p.connect();
-
+	int rand_num;
 	string ans;
 	while (!isConnect)
 	{
@@ -46,7 +50,7 @@ void main()
 	// msgToGraphics should contain the board string accord the protocol
 	// YOUR CODE
 
-	strcpy_s(msgToGraphics, "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR1"); // just example...
+	strcpy_s(msgToGraphics, "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR0"); // just example...
 
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 
@@ -57,13 +61,14 @@ void main()
 	{
 		// should handle the string the sent from graphics
 		// according the protocol. Ex: e2e4           (move e2 to e4)
-
+		 rand_num = my_main.gamefunc(msgFromGraphics);
 		// YOUR CODE
-		strcpy_s(msgToGraphics, "YOUR CODE"); // msgToGraphics should contain the result of the operation
-
+		
+		 
+		
 		/******* JUST FOR EREZ DEBUGGING ******/
 		int r = rand() % 10; // just for debugging......
-		msgToGraphics[0] = (char)(1 + '0');
+		msgToGraphics[0] = (char)(my_main.get_board().get_code() + '0');
 		msgToGraphics[1] = 0;
 		/******* JUST FOR EREZ DEBUGGING ******/
 
