@@ -6,14 +6,12 @@
 class SecondaryMain 
 {
 public:
+    SecondaryMain(const std::string& move, Board& my_board);
+    ~SecondaryMain();
     // Function declaration with parameter types
-    std::string gamefunc(const std::string& move, const Board& my_board,  int x_current, int y_current, int x_next, int y_next);
+    std::string gamefunc(int x_current, int y_current, int x_next, int y_next);
 
 private:
-    std::string move; 
-    Board my_board;  
-    int x_current;
-    int y_current;
-    int x_next;
-    int y_next;
+    std::string _Move; 
+    Board My_Board;  
 };
