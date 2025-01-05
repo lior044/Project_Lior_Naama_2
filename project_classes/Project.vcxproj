@@ -30,6 +30,7 @@
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Rook.h" />
+    <ClInclude Include="secnderyMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\project_classes\Source.cpp" />
@@ -43,6 +44,7 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
+    <ClCompile Include="secnderyMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\project_classes\chessGraphics.exe" />
